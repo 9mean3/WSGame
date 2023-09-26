@@ -38,12 +38,13 @@ public class ShoulderViewCinemachine : MonoBehaviour
     {
         float fwd = thisCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z;
 
-        if (Physics.Raycast(target.position, -target.forward, out RaycastHit hit, -fwd, whatIsObstacle)){
+        if (Physics.Raycast(target.position, -target.forward, out RaycastHit hit, -followDistance, whatIsObstacle))
+        {
             thisCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z
                 = -Vector3.Distance(target.position, hit.point);
             Debug.Log("¿Ô¾î~!");
         }
-        else if(Physics.Raycast(target.position, -target.forward, followDistance, whatIsObstacle))
+        else if (!Physics.Raycast(target.position, -target.forward, -followDistance, whatIsObstacle))
         {
             Debug.Log("³ª°¬¾î~!");
             thisCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = followDistance;
