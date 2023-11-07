@@ -2,33 +2,54 @@ using System;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static InputActions;
+using static Controls;
 
-[CreateAssetMenu(fileName = "Input Reader", menuName = "SO/Input/InputReader")]
-public class InputReader : ScriptableObject, IPlayerControlActions
+[CreateAssetMenu(menuName = "SO/Input")]
+public class InputReader : ScriptableObject, IPlayerInputActions
 {
-    public void OnAttack(InputAction.CallbackContext context)
+    private Controls inputReader;
+
+    public event Action<Vector2> MovementEvent;
+    public event Action<Vector2> LookEvent;
+    public event Action JumpEvent;
+    public event Action<bool> SprintEvent;
+    public event Action Attack;
+
+    private void OnEnable()
     {
-        throw new NotImplementedException();
+        if (inputReader == null)
+        {
+            inputReader = new Controls();
+            inputReader.PlayerInput.SetCallbacks(this); // 이 SO클래스가 인풋을 다 받음
+        }
+        inputReader.PlayerInput.Enable(); //활성화
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+
+    public void OnMovement(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        MovementEvent.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        LookEvent.Invoke(context.ReadValue<Vector2>());
     }
 
-    public void OnMovement(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        if (context.performed)
+            JumpEvent.Invoke();
     }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        SprintEvent.Invoke(context.performed);
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            Attack.Invoke();
     }
 }

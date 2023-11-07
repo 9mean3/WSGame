@@ -98,6 +98,8 @@ namespace StarterAssets
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
 
+        private int _animIDPunch;
+
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -159,6 +161,12 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _animator.SetTrigger(_animIDPunch);
+                //_targetRotation = _mainCamera.transform.forward;
+            }
         }
 
         private void LateUpdate()
@@ -173,6 +181,8 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+
+            _animIDPunch = Animator.StringToHash("Punch");
         }
 
         private void GroundedCheck()
