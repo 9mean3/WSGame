@@ -3993,6 +3993,10 @@ MonoBehaviour:
   allowPlayerRotation: 0.1
   blockRotationPlayer: 0
   animator: {fileID: 511756063}
+  CinemachineCameraTarget: {fileID: 360676681}
+  BottomClamp: 70
+  TopClamp: 70
+  CameraAngleOverride: 0
   mainCam: {fileID: 870124847}
 --- !u!114 &511756066
 MonoBehaviour:

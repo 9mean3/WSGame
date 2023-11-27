@@ -10,7 +10,7 @@ public class InputReader : ScriptableObject, IPlayerInputActions
     private Controls inputReader;
 
     public event Action<Vector2> MovementEvent;
-    public event Action<Vector2> LookEvent;
+    public Vector2 Look;
     public event Action JumpEvent;
     public event Action<bool> SprintEvent;
     public event Action Attack;
@@ -33,7 +33,8 @@ public class InputReader : ScriptableObject, IPlayerInputActions
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        LookEvent.Invoke(context.ReadValue<Vector2>());
+        Look = context.ReadValue<Vector2>();
+        Debug.Log(Look);
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -50,6 +51,6 @@ public class InputReader : ScriptableObject, IPlayerInputActions
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
-            Attack.Invoke();
+            Attack?.Invoke();
     }
 }
